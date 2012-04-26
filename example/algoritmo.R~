@@ -17,7 +17,6 @@
 
 library(FLAdvice)
 library(FLBioDym)
-source("funs.R")
 
 #### OM Conditioning ##############################################################
 nits <- 500
@@ -124,7 +123,7 @@ ctrl <- fwdControl(data.frame(year=2005:2020,quantity="f",val=c(fbar(om)[,"2004"
 OM <- fwd(OM, ctrl=ctrl, sr=srs[["Mean"]], sr.residuals=srRsdl)
 plot(OM)
 
-# these bounds are related with ADMB 
+# this bounds are related with ADMB 
 bounds <- bounds(FLBioDym())
 bounds["r",    "start"]=0.35
 bounds["K",    "start"]=1.6e+8
@@ -149,6 +148,7 @@ save(res1,file="res1.RData")
 set.seed(123)
 res11 <- mlply(scn, function(Btrig, CV, Ftar) 
 	mseBD(OM, 2004, sr=srs[["Hockey Stick"]], srRsdl, CV=CV, Btrig=Btrig, Ftar=Ftar, bounds=bounds, intYr=2))
+
 
 res2 <- mlply(scn, function(Btrig,CV,Ftar) 
    mseFLBioDym(OM, 2004, sr=srs[["Hockey Stick"]], srRsdlAR, CV=CV, Btrig=Btrig, Ftar=Ftar, bounds=bounds))
